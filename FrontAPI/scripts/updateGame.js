@@ -10,7 +10,7 @@ function loadForm(listItem){
     document.getElementById("yearEdit").value=year;
     document.getElementById("priceEdit").value=price;
 }
-
+ 
 
 function updateGame(){
     
