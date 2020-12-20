@@ -1,7 +1,14 @@
-axios.get("http://localhost:8000/games").then(res => {
+var axiosConfig = {
+    headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+    }
+}
+
+axios.get("http://localhost:8000/games", axiosConfig).then(res => {
     var games = res.data;
-    var list = document.getElementById("games")
-    games.forEach(game => {
+    var arrayGames = games;
+    var list = document.getElementById("games");
+    arrayGames.games.forEach(game => {
         var item = document.createElement("li");
         item.setAttribute("data-id", game.id);
         item.setAttribute("data-title", game.title)
@@ -29,5 +36,5 @@ axios.get("http://localhost:8000/games").then(res => {
     });
 
 }).catch(error => {
-    console.log(error);
+    console.log("isso aqui é um teste: " + error);
 });

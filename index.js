@@ -2,41 +2,21 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors")
+const DB = require('./database/database')
+const auth= require("./middleware/auth")
+const jwt = require("jsonwebtoken")
+const jwtSecret = "passwordjwt123"
 
 app.use(cors());
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-var DB = {
-    games: [
-        {
-            id: 1,
-            title: "God of War",
-            year: 2012,
-            price: 50
-        }, {
-            id: 2,
-            title: "Minecraft",
-            year: 2010,
-            price: 80
-        }, {
-            id: 10,
-            title: "The Last of US",
-            year: 2014,
-            price: 100
-        },
-
-    ]
-}
-
-app.get("/games", (req, res) => {
+app.get("/games", auth,(req, res) => {
     res.statusCode = 200;
-    res.json(DB.games)
+    res.json({games: DB.games})
 })
 
-app.get("/game/:id", (req, res) => {
+app.get("/game/:id",auth, (req, res) => {
     //verify if is a number params
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
@@ -53,9 +33,8 @@ app.get("/game/:id", (req, res) => {
     }
 })
 
-
 //adding new game
-app.post("/game", (req, res) => {
+app.post("/game", auth,(req, res) => {
     var { title, price, year, id } = req.body
 
     if (isNaN(price && year && id)) {
@@ -71,7 +50,7 @@ app.post("/game", (req, res) => {
 })
 
 
-app.delete("/game/:id", (req, res) => {
+app.delete("/game/:id", auth,(req, res) => {
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
 
@@ -92,7 +71,7 @@ app.delete("/game/:id", (req, res) => {
 });
 
 
-app.put("/game/:id", (req, res) => {
+app.put("/game/:id", auth,(req, res) => {
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
 
@@ -122,6 +101,37 @@ app.put("/game/:id", (req, res) => {
     }
 })
 
+
+app.post("/auth",(req, res) => {
+    var { email, password } = req.body;
+    if (email == undefined) {
+        res.status(400);
+        res.json({ err: "O e-mail ou a senha estão incorretos" })
+    } else {
+        var user = DB.users.find(user => user.email == email)
+        if (user != undefined) {
+            if (user.password == password) {
+                //payload
+                jwt.sign({ id: user.id, email: user.email }, jwtSecret, { expiresIn: '48h' }, (err, token) => {
+                    if (err) {
+                        res.status(400);
+                        res.json({ err: "Falha" })
+                    } else {
+                        res.status(200);
+                        res.json({ token: token })
+                    }
+                })
+            } else {
+                res.status(401)
+                res.json({ err: "O e-mail ou a senha estão incorretos" })
+            }
+        } else {
+            res.status(404);
+            res.json({ err: "O e-mail ou a senha estão incorretos" })
+
+        }
+    }
+})
 
 
 

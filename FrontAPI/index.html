@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API JOGOS</title>
+
 </head>
 
 <body>
+    <h2>Login</h2>
+    <input type="text" name="email" id="email" placeholder="email@example.com"><br>
+    <input type="password" name="password" id="password">
+    <button type="button" onclick="login()">Entrar</button>
+
+
     <hr>
     <h4>Lista de jogos</h4>
     <ul id="games"></ul>
@@ -30,18 +37,14 @@
 
 </body>
 
+
+
 <!-- axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
+<script src="./scripts/login.js"></script>
+<script src="./scripts/getGame.js"></script>
 <script src="./scripts/createGame.js"></script>
 <script src="./scripts/deleteGame.js"></script>
 <script src="./scripts/updateGame.js"></script>
-<script src="./scripts/getGame.js"></script>
-
-<script>
-
-
-</script>
 
 </html>

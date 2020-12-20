@@ -1,3 +1,11 @@
+
+var axiosConfig = {
+    headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+    }
+}
+
+
 function loadForm(listItem){
     console.log(listItem)
 
@@ -28,7 +36,7 @@ function updateGame(){
 
     var id = idInput.value
 
-    axios.put("http://localhost:8000/game/" + id, game).then(res => {
+    axios.put("http://localhost:8000/game/" + id, game, axiosConfig).then(res => {
         if (res.status == 200) {
             alert("Jogo atualizado com sucesso")
             window.location.reload(true)
