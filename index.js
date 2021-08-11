@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.get("/games", auth,(req, res) => {
     res.statusCode = 200;
     res.json({games: DB.games})
-})
+}) 
 
 app.get("/game/:id",auth, (req, res) => {
     //verify if is a number params
@@ -44,11 +44,11 @@ app.post("/game", auth,(req, res) => {
             id, title, price, year
         });
 
-    }
+    } 
 
     res.sendStatus(200)
 })
-
+ 
 
 app.delete("/game/:id", auth,(req, res) => {
     if (isNaN(req.params.id)) {

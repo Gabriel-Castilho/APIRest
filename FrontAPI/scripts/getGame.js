@@ -27,7 +27,7 @@ axios.get("http://localhost:8000/games", axiosConfig).then(res => {
         var editButton = document.createElement("button")
         editButton.innerHTML = "Editar";
         editButton.addEventListener("click", function () {
-            loadForm(item)
+            loadForm(item) 
         })
 
         item.appendChild(deleteButton);

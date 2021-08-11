@@ -18,4 +18,4 @@ function deleteGame(listItem) {
         console.log(error)
     })
 
-}
+} 

@@ -15,7 +15,7 @@ function createGame() {
         price: priceInput.value,
         id: idInput.value
     }
-
+  
     axios.post("http://localhost:8000/game", game, axiosConfig).then(res => {
         if (res.status == 200) {
             alert("Cadastro efetuado com sucesso")
